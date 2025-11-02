@@ -1,25 +1,29 @@
 import React from 'react';
-const useTimer = (decrement) => {
-  const timerRef = React.useRef({});
+type startTimer = {
+  initWaitTime?: number;
+  gapBtw?: number;
+}
+const useTimer = (decrement:() => void) => {
+  const timerRef = React.useRef<{timeoutId?: number, intervalId?: number}>({});
 
   const resetTimer = () => {
     clearInterval(timerRef.current.intervalId);
     clearTimeout(timerRef.current.timeoutId);
   };
 
-  const startAutoDecrement = () => {
+  const startAutoDecrement = (gapBtw?:number) => {
     timerRef.current.intervalId = setInterval(() => {
       decrement();
       console.count('Decreased');
-    }, 1000);
+    }, gapBtw);
   };
 
-  const startTimer = () => {
+  const startTimer = ({initWaitTime = 5000, gapBtw = 1000}: startTimer ) => {
     resetTimer();
     timerRef.current.timeoutId = setTimeout(() => {
-      startAutoDecrement();
+      startAutoDecrement(gapBtw);
       console.log('Start Timer');
-    }, 5000);
+    }, initWaitTime);
   };
 
   return {

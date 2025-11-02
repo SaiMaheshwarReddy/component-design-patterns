@@ -11,7 +11,7 @@ const AutoCounter = () => {
   function handleIncrement() {
     resetTimer();
     setCount((prev) => prev + 1);
-    startTimer();
+    startTimer({});
   }
 
   function handleDecrement() {
